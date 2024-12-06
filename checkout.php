@@ -105,27 +105,46 @@
             if (!$conn) {
                 die("Connection failed: " . mysqli_connect_error());
             }
- 
+            
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $isbn = $_POST['isbn'];
                 $memberId = $_POST['member-id'];
                 $libraryId = $_POST['library-id'];
                 $issuedDate = date('Y-m-d');
             
-                $sql = "INSERT INTO Rental (ISBN, MemberID, LibraryID, RentalDate)
-                    VALUES (?, ?, ?, ?)";
+                // Use prepared statement for the SELECT query
+                $sql = "SELECT b.Quantity - COUNT(r.ISBN) AS AvailableQuantity 
+                        FROM Books b 
+                        LEFT JOIN Rental r ON b.ISBN = r.ISBN 
+                        WHERE b.ISBN = ?";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ssss", $isbn, $memberId, $libraryId, $issuedDate);
+                $stmt->bind_param("s", $isbn);
+                $stmt->execute();
+                $result = $stmt->get_result();
             
-                if ($stmt->execute()) {
-                    echo "<script>alert('Book issued successfully!');</script>";
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    if ($row['AvailableQuantity'] > 0) {
+                        // Insert into Rental table using prepared statement
+                        $insertSql = "INSERT INTO Rental (ISBN, MemberID, LibraryID, RentalDate) VALUES (?, ?, ?, ?)";
+                        $insertStmt = $conn->prepare($insertSql);
+                        $insertStmt->bind_param("ssss", $isbn, $memberId, $libraryId, $issuedDate);
+                        $insertStmt->execute();
+            
+                        if ($insertStmt->execute()) {
+                            echo "<script>alert('Book issued successfully!');</script>";
+                        } else {
+                            $error = $insertStmt->error;
+                            echo "<script>alert('Error: $error');</script>";
+                        }
+                    } else {
+                        echo "<script>alert('Sorry, that book is not available at the moment.'); window.location.href = 'https://codd.cs.gsu.edu/~nvu24/checkout.php'; </script>";
+                    }
+                    $stmt->close();
                 } else {
-                    $error = $stmt->error;
-                    echo "<script>alert('Error: $error');</script>";
+                    echo "<script>alert('Book not found.');</script>";
                 }
-            
- 
-                mysqli_close($conn);
+                $conn->close();
             }
         ?>
         <h2>Checkout Book</h2>
@@ -143,18 +162,11 @@
                         $sql = "SELECT DISTINCT BranchName FROM Library";
                         $result = mysqli_query($conn, $sql);
 
-                        $libraries = [];
-                        while ($row = mysqli_fetch_assoc($result)){
-                            $libraries[] = $row;
-                        }
-
-                        foreach($libraries as $library){
-                            echo '<option value=' . $library['LibraryID'] . '>' . $library['LibraryID'] . '</option>';
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo '<option value="' . $row['LibraryID'] . '">' . $row['BranchName'] . '</option>';
                         }
                     ?>
-
-            <!-- <label for="library-id">Library ID:</label>
-            <input type="text" id="library-id" name="library-id" placeholder="Enter library ID" required> -->
+                </select>
             <button type="submit">Checkout Book</button>
         </form>
         <script>
