@@ -149,34 +149,34 @@
 
            if ($_SERVER["REQUEST_METHOD"] == "POST") {
                $memberID = $_POST['member-id'];
-               $bookName = $_POST['book-name'];
-               $dateReturned = $_POST['date-returned'];
                $isbn = $_POST['isbn'];
 
-            //    TODO: Rental or Access
-               $del = "DELETE FROM Rental WHERE $isbn = ISBN AND $memberID = MemberID";
-               if ($conn->query($del) === TRUE) {
-                   echo "<script>alert('Returned book successfully!');</script>";
-               } else {
-                   $error = $conn->error;
-                   echo "<script>alert('Error: $error');</script>";
-               }
+               // Delete from Rental table
+                $sql = "DELETE FROM Rental WHERE ISBN = ? AND MemberID = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ss", $isbn, $memberID);
+                $stmt->execute();
 
-               echo "<script>window.location.href = 'https://codd.cs.gsu.edu/~nvu24/allBooks.php'; </script>";
+                // Delete from ReturnCheck table. Could turn this into a book rented history if we remove this section of code. 
+                // $sql = "DELETE FROM ReturnCheck WHERE ISBN = ? AND MemberID = ?";
+                // $stmt = $conn->prepare($sql);
+                // $stmt->bind_param("ss", $isbn, $memberID);
+                // $stmt->execute();
 
-               mysqli_close($conn);
+                if ($stmt->affected_rows > 0) {
+                    echo "<script>alert('Book returned successfully!'); window.location.href = 'allBooks.php';</script>";
+                } else {
+                    echo "<script>alert('Error returning book. Please try again.'); window.location.href = 'allBooks.php';</script>";
+                }
+
+                $stmt->close();
+                $conn->close();
            }
         ?>
         
         <form method="POST"> <!-- Form submission to backend -->
             <label for="member-id">Member ID</label>
-            <input type="text" id="member-id" name="member_id" placeholder="Enter Member ID" required>
-
-            <label for="book-name">Name of Book</label>
-            <input type="text" id="book-name" name="book_name" placeholder="Enter Name of Book" required>
-
-            <label for="date-returned">Date Returned</label>
-            <input type="date" id="date-returned" name="date_returned" required>
+            <input type="text" id="member-id" name="member-id" placeholder="Enter Member ID" required>
 
             <label for="isbn">ISBN</label>
             <input type="text" id="isbn" name="isbn" placeholder="Enter ISBN" required>
