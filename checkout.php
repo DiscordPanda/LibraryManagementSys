@@ -138,7 +138,7 @@
                             echo "<script>alert('Error: $error');</script>";
                         }
                     } else {
-                        echo "<script>alert('Sorry, that book is not available at the moment.'); window.location.href = 'https://codd.cs.gsu.edu/~nvu24/checkout.php'; </script>";
+                        echo "<script>alert('Sorry, that book is not available at the moment.'); window.location.href = 'https://codd.cs.gsu.edu/~nvu24/user.php'; </script>";
                     }
                     $stmt->close();
                 } else {

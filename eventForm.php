@@ -118,6 +118,7 @@
                    $error = $conn->error;
                    echo "<script>alert('Error: $error');</script>";
                }
+               echo "<script>window.location.href = 'https://codd.cs.gsu.edu/~nvu24/user.php'; </script>";
 
                mysqli_close($conn);
            }

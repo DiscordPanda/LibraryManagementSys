@@ -154,10 +154,6 @@ form button:hover {
                 $quan = $_POST['quantity'];
                 $price = $_POST['bookPrice'];
                 $libID = $_POST['library-id'];
-                $branch = $_POST['branch-name'];
-
- 
-                
 
                 $sql = "INSERT IGNORE INTO Author(Name) VALUES (?)";
                 $stmt = $conn->prepare($sql);
@@ -171,13 +167,11 @@ form button:hover {
                 $stmt->bind_param("issdi", $isbn, $genre, $bookName, $price, $quan);
                 $stmt->execute();
 
-                // TODO: Fix BookAuthor table. It is reading NULL, NULL for inputs
                 $sql = "INSERT INTO BookAuthor (ISBN, AuthorID)
                         SELECT 
                             (SELECT ISBN FROM Books WHERE ISBN = ?),
                             (SELECT AuthorID FROM Author WHERE Name = ?)";
                 $stmt = $conn->prepare($sql);
-                // Possible problem is $author and $isbn
                 $stmt->bind_param("is", $isbn, $author);
                 $stmt->execute();
 
@@ -186,6 +180,7 @@ form button:hover {
                 $stmt->bind_param("is", $isbn, $libID);
                 $stmt->execute();
 
+                echo "<script>window.location.href = 'https://codd.cs.gsu.edu/~nvu24/AddBooks.php'; </script>";
                 
                 mysqli_close($conn);
             }
@@ -216,7 +211,7 @@ form button:hover {
             <select id="library-id" name="library-id">
                 <option value="" disabled selected>Select a library</option>
                 <?php
-                    $sql = "SELECT DISTINCT BranchName FROM Library";
+                    $sql = "SELECT DISTINCT LibraryID, BranchName FROM Library";
                     $result = mysqli_query($conn, $sql);
 
                     $libraries = [];
@@ -225,7 +220,7 @@ form button:hover {
                     }
 
                     foreach($libraries as $library){
-                        echo '<option value=' . $library['BranchName'] . 'name = ' . $library['BranchName'] . '>' . $library['BranchName'] . '</option>';
+                        echo '<option value=' . $library['LibraryID'] . '>' . $library['BranchName'] . '</option>';
                     }
                 ?>
             </select>

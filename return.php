@@ -143,6 +143,7 @@
                     } else {
                         echo "<script>alert('Rental not found.');</script>";
                     }
+                    echo "<script>window.location.href = 'https://codd.cs.gsu.edu/~nvu24/user.php'; </script>";
                 
                     $stmt->close();
                     $insertStmt->close();

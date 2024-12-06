@@ -162,6 +162,8 @@
                    echo "<script>alert('Error: $error');</script>";
                }
 
+               echo "<script>window.location.href = 'https://codd.cs.gsu.edu/~nvu24/allBooks.php'; </script>";
+
                mysqli_close($conn);
            }
         ?>
