@@ -121,12 +121,12 @@
       </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management - Return Book</title>
+    <title>BookStack - Return Book</title>
     <link rel="stylesheet" href="AddBook.css"> <!-- Reuse the AddBook.css -->
 </head>
 <body>
     <header>
-        <h1>Library Management - Return Book</h1>
+        <h1>BookStack - Return Book</h1>
     </header>
     <div class="navbar">
         <a href="allBooks.php" class="checkedOut">Home</a>

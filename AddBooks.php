@@ -125,7 +125,7 @@ form button:hover {
 </head>
 <body>
     <header>
-        <h1>Library Management - Add New Book</h1>
+        <h1>BookStack - Add New Book</h1>
     </header>
     <div class="navbar">
         <a href="allBooks.php" class="checkedOut">Home</a>

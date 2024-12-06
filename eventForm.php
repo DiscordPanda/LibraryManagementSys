@@ -82,7 +82,7 @@
 </head>
 <body>
     <header>
-        <h1>Library Management - Event Form</h1>
+        <h1>BookStack - Event Form</h1>
     </header>
     <div class="navbar"> 
         <!-- TODO: Link these Navigation items to another page -->

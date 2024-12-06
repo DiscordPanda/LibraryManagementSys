@@ -95,7 +95,7 @@
         ?>
 
     <header>
-        <h1>Library Management - Return</h1>
+        <h1>BookStack - Return</h1>
     </header>
 
     <div class="navbar"> 

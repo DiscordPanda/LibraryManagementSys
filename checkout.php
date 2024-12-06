@@ -83,7 +83,7 @@
 <body>
 
     <header>
-        <h1>Library Management - Checkout</h1>
+        <h1>BookStack - Checkout</h1>
     </header>
 
     <div class="navbar"> 

@@ -151,7 +151,7 @@
 </head>
 <body>
     <header>
-        <h1>Library Management - Checked Out Books</h1>
+        <h1>BookStack - Checked Out Books</h1>
     </header>
     <div class="navbar">
         <a href="allBooks.php" class="checkedOut">Home</a>
@@ -171,7 +171,7 @@
         }
     ?>
     <main>
-        <h2>Librarian Checked Out Books</h2>
+        <h2>BookStack's Checked Out Books</h2>
         
         <!-- Book Details Section -->
         <div class="book-container">

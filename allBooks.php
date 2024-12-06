@@ -136,7 +136,7 @@
             }
         ?>
     <header>
-        <h1>Library Management - All Books</h1>
+        <h1>BookStack - All Books</h1>
     </header>
     <div class="navbar">
         <a href="allBooks.php" class="checkedOut">Home</a>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management System</title>
+    <title>BookStack</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -19,7 +19,7 @@
         }
     ?>
     <header>
-            <h1>Library Management System</h1>
+            <h1>BookStack</h1>
     </header>
     <div class="navbar"> 
         <!-- TODO: Link these Navigation items to another page -->
